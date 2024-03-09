@@ -67,6 +67,33 @@ const QR = ({
                 url: fullUrl,
                 prompt: 'A city with mountains and clouds',
             })
+            let timeout: any
+
+            const checkVisitor = async () => {
+                timeout = setTimeout(async () => {
+                    try {
+                        if (id && id !== undefined) {
+                            const qr = await getQR(id)
+                            setVisited(qr.visited)
+                        }
+                        if (visited && isLoading) {
+                            console.log('visit')
+                            router.push(`/qr/${qrId}`)
+                            return
+                        }
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }, 1000)
+            }
+
+            if (id && id !== undefined) {
+                timeout = setTimeout(checkVisitor, 1000)
+            }
+
+            return () => {
+                clearTimeout(timeout)
+            }
         }
     }, [flag])
 
@@ -96,12 +123,6 @@ const QR = ({
             }
         } catch (error) {
             console.log(error)
-        }
-
-        if (visited && isLoading) {
-            console.log('visit')
-            router.push(`/qr/${qrId}`)
-            return
         }
     }
     l()
