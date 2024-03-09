@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import clsx from 'clsx'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const UserCard = ({
     user,
@@ -21,24 +21,31 @@ const UserCard = ({
 }) => {
     const [isActive, setIsActive] = useState(false)
     const [isRotate, setIsRotate] = useState(false)
-
     const { width, height, rounded } = size
-
-    const cardSize = {
+    const [cardSize, setCardSize] = useState({
         width: isActive ? width : rounded,
         height: isActive ? height : rounded,
-    }
+    })
+    // const [w, setW] = useState(0)
+    // const [h, setH] = useState(0)
+
+    // useEffect(() => {
+    //     cardSize.width = w
+    //     cardSize.height = h
+    // }, [w, h])
+    // const cardSize = {
+    //     width: isActive ? width : rounded,
+    //     height: isActive ? height : rounded,
+    // }
 
     const toggle = useCallback(() => {
         console.log('Toggling')
         if (isActive) {
             setIsActive(false)
-            cardSize.width = rounded
-            cardSize.height = rounded
+            setCardSize({ width: rounded, height: rounded })
         } else {
             setIsActive(true)
-            cardSize.width = width
-            cardSize.height = height
+            setCardSize({ width: width, height: height })
         }
     }, [isActive])
 
