@@ -32,12 +32,10 @@ const UserCard = ({
     const toggle = useCallback(() => {
         console.log('Toggling')
         if (isActive) {
-            console.log('false')
             setIsActive(false)
             cardSize.width = rounded
             cardSize.height = rounded
         } else {
-            console.log('true')
             setIsActive(true)
             cardSize.width = width
             cardSize.height = height
@@ -70,9 +68,9 @@ const UserCard = ({
                     className={clsx(
                         `relative  cursor-pointer flex  items-center`,
                         isActive
-                            ? `preserve-3d  duration-300 ease-in-out`
+                            ? `preserve-3d  duration-300 ease-in-out h-[${cardSize.height}]`
                             : `rounded-full overflow-hidden `,
-                        isRotate && isActive ? 'card_rotate' : ''
+                        isRotate && isActive && 'card_rotate'
                     )}
                     style={cardSize}
                 >
