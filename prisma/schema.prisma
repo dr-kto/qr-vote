@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model Country {
+    id    String  @id @default(auto()) @map("_id") @db.ObjectId
+    name  String
+    abbrv String?
+    image String
+    users User[]
+}
+
+model Vote {
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    votedAt      DateTime @default(now())
+    deviceCookie String?
+    user         User     @relation(fields: [userId], references: [id])
+    userId       String   @db.ObjectId
+    qr           Qr?      @relation(fields: [qrId], references: [id])
+    qrId         String?  @unique @db.ObjectId
+}
+
+model Qr {
+    id            String  @id @default(auto()) @map("_id") @db.ObjectId
+    prompt        String?
+    image         String?
+    website_url   String
+    model_latency Int
+    visited       Boolean @default(false)
+    vote          Vote?
+}
+
+model User {
+    id     String  @id @default(auto()) @map("_id") @db.ObjectId
+    name   String?
+    role   String?
+    status String?
+    bio    String?
+    city   String?
+
+    country   Country @relation(fields: [countryId], references: [id])
+    countryId String  @db.ObjectId
+
+    email          String?   @unique
+    emailVerified  DateTime?
+    avatar         String?
+    image          String?
+    backgroudImage String?
+    password       String?
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+
+    accounts Account[]
+    votes    Vote[]
+}
+
+model Account {
+    id                String  @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String  @db.ObjectId
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.String
+    access_token      String? @db.String
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.String
+    session_state     String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
