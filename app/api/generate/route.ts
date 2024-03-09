@@ -25,23 +25,8 @@ const validateRequest = (request: QrGenerateRequest) => {
     }
 }
 
-// const ratelimit = new Ratelimit({
-//   redis: kv,
-//   // Allow 20 requests from the same IP in 1 day.
-//   limiter: Ratelimit.slidingWindow(20, '1 d'),
-// });
-
 export async function POST(request: NextRequest) {
     const reqBody = (await request.json()) as QrGenerateRequest
-
-    // const ip = request.ip ?? '127.0.0.1';
-    // const { success } = await ratelimit.limit(ip);
-
-    // if (!success && process.env.NODE_ENV !== 'development') {
-    //   return new Response('Too many requests. Please try again after 24h.', {
-    //     status: 429,
-    //   });
-    // }
 
     try {
         validateRequest(reqBody)
@@ -51,8 +36,6 @@ export async function POST(request: NextRequest) {
         }
     }
 
-    // const id = nanoid();
-    // const id = cuid();
     const createdAt = new Date()
     const startTime = performance.now()
 
@@ -91,13 +74,6 @@ export async function POST(request: NextRequest) {
     // upload & store in Vercel Blob
     const { url } = await put(`${createdAt}.png`, file, { access: 'public' })
 
-    // await kv.hset(id, {
-    //   prompt: reqBody.prompt,
-    //   image: url,
-    //   website_url: reqBody.url,
-    //   model_latency: Math.round(durationMS),
-    // });
-
     try {
         const qr = await prisma.qr.update({
             where: {
@@ -110,14 +86,6 @@ export async function POST(request: NextRequest) {
                 model_latency: Math.round(durationMS),
             },
         })
-        // const QR = await prisma.qr.findMany({
-        //   orderBy: {
-        //     id: 'desc',
-        //   },
-        //   take: 1,
-        // });
-
-        // const id = QR[0].id;
         const id = qr.id
 
         const response: QrGenerateResponse = {

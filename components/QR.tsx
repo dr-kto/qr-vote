@@ -153,11 +153,11 @@ const QR = ({
                 va.track('Generated QR Code', {
                     prompt: values.prompt,
                 })
-
+                console.log(data.id)
+                setQrId(data.id)
                 if (!id) {
                     router.push(`/qr/${data.id}`)
                 }
-                setQrId(data.id)
                 // const qrVote = await getVote(data.id);
                 // const qrVote = await getVote(qrId);
                 // console.log(qrVote);
