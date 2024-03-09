@@ -219,7 +219,7 @@ const QR = ({
     )
 
     return (
-        <div className="flex flex-col justify-center relative h-auto items-center pt-[40%]">
+        <div className="flex flex-col justify-center relative h-auto items-center py-[30%]">
             {response ? (
                 <QrCard
                     imageURL={response.image_url}
