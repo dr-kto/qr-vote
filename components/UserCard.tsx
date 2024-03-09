@@ -68,7 +68,7 @@ const UserCard = ({
                     className={clsx(
                         `relative  cursor-pointer flex  items-center`,
                         isActive
-                            ? `preserve-3d  duration-300 ease-in-out h-[${cardSize.height}]`
+                            ? `preserve-3d  duration-300 ease-in-out h-[${cardSize.height}px]`
                             : `rounded-full overflow-hidden `,
                         isRotate && isActive && 'card_rotate'
                     )}
