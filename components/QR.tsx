@@ -58,6 +58,13 @@ const QR = ({
     const router = useRouter()
 
     useEffect(() => {
+        if (qrId !== undefined) {
+            console.log('visit')
+            router.push(`/qr/${qrId}`)
+        }
+    }, [visited])
+
+    useEffect(() => {
         if (flag === 1) {
             flag = 0
 
@@ -68,32 +75,37 @@ const QR = ({
                 prompt: 'A city with mountains and clouds',
             })
             let timeout: any
+            console.log('generated')
 
             const checkVisitor = async () => {
-                timeout = setTimeout(async () => {
-                    try {
-                        if (id && id !== undefined) {
-                            const qr = await getQR(id)
-                            setVisited(qr.visited)
-                        }
-                        if (visited && isLoading) {
-                            console.log('visit')
-                            router.push(`/qr/${qrId}`)
-                            return
-                        }
-                    } catch (error) {
-                        console.log(error)
+                try {
+                    console.log('loading')
+                    if (id || id !== undefined) {
+                        console.log('checkVisitor')
+                        const qr = await getQR(id)
+                        setVisited(qr.visited)
                     }
-                }, 1000)
+                    if (visited) {
+                        return
+                    }
+                    console.log('re')
+
+                    timeout = setTimeout(checkVisitor, 1000)
+                } catch (error) {
+                    console.log(error)
+                }
             }
 
-            if (id && id !== undefined) {
+            if (id) {
+                console.log('init')
+
                 timeout = setTimeout(checkVisitor, 1000)
             }
 
-            return () => {
-                clearTimeout(timeout)
-            }
+            // return () => {
+            //     console.log('clear')
+            //     clearTimeout(timeout)
+            // }
         }
     }, [flag])
 
@@ -114,18 +126,18 @@ const QR = ({
         }
     }, [imageUrl, prompt, redirectUrl, modelLatency, id])
 
-    async function l() {
-        try {
-            if (id) {
-                console.log('loads')
-                const qr = await getQR(id)
-                setVisited(qr.visited)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    l()
+    // async function l() {
+    //     try {
+    //         if (id) {
+    //             console.log('loads')
+    //             const qr = await getQR(id)
+    //             setVisited(qr.visited)
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+    // l()
     // useEffect(() => {
     //   console.log(flag + ' set flag');
     //   if (flag === 1) {
