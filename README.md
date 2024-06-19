@@ -1,3 +1,10 @@
+<div align="center">
+  <h3 align="center">SCREENSHOTS</h3>
+  <div class="screenshots">
+    <img src="https://raw.githubusercontent.com/dr-kto/Queue/main/public/assets/images/screen1.jpg" alt="screenshot" />
+  </div>
+</div>
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
