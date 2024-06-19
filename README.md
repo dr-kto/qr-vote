@@ -1,7 +1,7 @@
 <div align="center">
   <h3 align="center">SCREENSHOTS</h3>
   <div class="screenshots">
-    <img src="https://raw.githubusercontent.com/dr-kto/qr-vote/main/public/assets/qrvote-cards.png" alt="screenshot" />
+    <img src="https://raw.githubusercontent.com/dr-kto/qr-vote/main/public/qrvote-cards.png" alt="screenshot" />
   </div>
 </div>
 
